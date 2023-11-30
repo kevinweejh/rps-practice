@@ -58,8 +58,6 @@ const playRound = (playerSelectionStr) => {
     let computerSelection = getComputerChoice();
     let playerSelection = picks.indexOf(playerSelectionStr);
 
-    let roundWinner;
-
     if (playerSelection == computerSelection) {
         alert("It's a tie, please play again");
         return null;
