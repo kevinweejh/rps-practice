@@ -10,11 +10,27 @@ const getComputerChoice = () => {
     return pick;
 }
 
-const buttons = document.querySelectorAll("button");
+const buttons = document.querySelectorAll("button:not(#restart");
 console.log(buttons);
 buttons.forEach((button) => {
     button.addEventListener("click", () => playGame(button.id))
 });
+
+const scoreDisplay = document.querySelector("#runningScore");
+const announcementDisplay = document.querySelector("#announcement");
+
+const restartButton = document.querySelector("#restart");
+const restartGame = () => {
+    playerScore = 0;
+    computerScore = 0;
+    restartButton.toggleAttribute("hidden");
+    printCurrentScore();
+    announcementDisplay.innerText = null;
+    buttons.forEach((button) => {
+        button.toggleAttribute("disabled");
+    })
+}
+restartButton.addEventListener("click", () => restartGame());
 
 // const getPlayerInput = () => {
 //     let playerSelectionStr = prompt("Choose between rock, paper or scissors:").toLowerCase();
@@ -27,14 +43,18 @@ buttons.forEach((button) => {
 // }
 
 const printCurrentScore = () => {
-    console.log(`Computer:\t${computerScore} \n Player:\t${playerScore}`);
+    scoreDisplay.innerText = `Computer:\t${computerScore} \n Player:\t${playerScore}`;
 }
 
 const endGame = () => {
     winner = (playerScore > computerScore) ? 'Player' : 'Computer'; 
-    console.log(`${winner} wins!`);
-    playerScore = 0;
-    computerScore = 0;
+    announcementDisplay.innerText = `${winner} wins!`;
+    restartButton.toggleAttribute("hidden");
+    buttons.forEach((button) => {
+        button.toggleAttribute("disabled");
+    })
+    // playerScore = 0;
+    // computerScore = 0;
 }
 
 const playGame = (id) => {
@@ -59,20 +79,20 @@ const playRound = (playerSelectionStr) => {
     let playerSelection = picks.indexOf(playerSelectionStr);
 
     if (playerSelection == computerSelection) {
-        alert("It's a tie, please play again");
+        announcementDisplay.innerText = "It's a tie, please play again";
         return null;
     } else {
         switch (computerSelection - playerSelection) {
             case 1:
                 roundWinner = 'computer';
-                alert("Try harder, bro");
+                announcementDisplay.innerText = "Try harder, bro";
                 break;
             case -2:
                 roundWinner = 'computer';
-                alert("lol, are you for real here?");
+                announcementDisplay.innerText = "lol, are you for real here?";
                 break;
             default:
-                alert("Lucky duck");
+                announcementDisplay.innerText = "Lucky duck";
                 roundWinner = 'player';
         }
         return roundWinner;
